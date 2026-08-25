@@ -49,7 +49,7 @@ class HashMap {
   // take key, return value assign to that key
   get(key) {
     let hashCode = this.hash(key);
-  
+
     let node = this.buckets[hashCode].head;
 
     while (node != null) {
@@ -59,51 +59,73 @@ class HashMap {
       node = node.next;
     }
 
-    return null
-  
+    return null;
   }
 
   // take a argument as key, if found return true, else false
-  has(key){
-    let hashCode = this.hash(key)
+  has(key) {
+    let hashCode = this.hash(key);
 
-    let node = this.buckets[hashCode].head
-    
-    while(node != null){
-      if(Object.keys(node.data)[0]== key){
-        return true
+    let node = this.buckets[hashCode].head;
+
+    while (node != null) {
+      if (Object.keys(node.data)[0] == key) {
+        return true;
       }
 
-      node = node.next
+      node = node.next;
     }
 
-    return false
+    return false;
   }
 
+  // take argument as key, if found remove entry with key, else return false
+  remove(key) {
+    let hashCode = this.hash(key);
+
+    let node = this.buckets[hashCode].head;
+
+    while (node != null) {
+      if (Object.keys(node.data)[0] == key) {
+        node = node.data;
+      }
+      node = node.next;
+    }
+
+    return null;
+  }
+
+  // returns the number of stored keys in hashmap
+  length() {
+    let total_key = 0;
+    for (let i = 0; i < this.buckets.length; i++) {
+      if (this.buckets[i] !== undefined) {
+        let current = this.buckets[i].head;
+        while (current != null) {
+          total_key++;
+          current = current.next;
+        }
+      }
+    }
+
+    return total_key;
+  }
 
   show() {
-    for(let i = 0; i < this.buckets.length; i++){
-      console.log(this.buckets[i])
+    for (let i = 0; i < this.buckets.length; i++) {
+      console.log(this.buckets[i]);
     }
   }
 }
 
 const map = new HashMap();
 
-map.set("name","Linn")
-map.set("name","Haydar")
-map.set("eman","David")
-map.set("hello","world")
-map.set("sara","ali")
-map.set("aras","love")
-map.set("thet","lin")
-map.set("teht","love")
-map.show()
-
-
-console.log(map.has("eman"))
-console.log(map.get("eman"))
-console.log(map.has("Hello"))
-console.log(map.get("Hello"))
-console.log(map.has('sara'))
-console.log(map.get('sara'))
+// map.set("name","Linn")
+// map.set("eman","David")
+map.set("hello", "world");
+map.set("sara", "ali");
+map.set("aras", "love");
+map.set("thet", "lin");
+map.set("teht", "love");
+// map.show()
+console.log(map.length());
