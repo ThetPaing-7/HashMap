@@ -26,7 +26,7 @@ export default class LinkListed{
             current.next = node
         }
 
-        return this.head
+        return this
     }
 
     // add a node at the start of the list
