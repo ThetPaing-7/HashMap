@@ -59,8 +59,27 @@ class HashMap {
       node = node.next;
     }
 
-    return "Not found buddy"
+    return null
+  
   }
+
+  // take a argument as key, if found return true, else false
+  has(key){
+    let hashCode = this.hash(key)
+
+    let node = this.buckets[hashCode].head
+    
+    while(node != null){
+      if(Object.keys(node.data)[0]== key){
+        return true
+      }
+
+      node = node.next
+    }
+
+    return false
+  }
+
 
   show() {
     for(let i = 0; i < this.buckets.length; i++){
@@ -82,4 +101,9 @@ map.set("teht","love")
 map.show()
 
 
+console.log(map.has("eman"))
 console.log(map.get("eman"))
+console.log(map.has("Hello"))
+console.log(map.get("Hello"))
+console.log(map.has('sara'))
+console.log(map.get('sara'))
