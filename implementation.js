@@ -111,6 +111,58 @@ class HashMap {
     return total_key;
   }
 
+
+// removes all entries in hashmap
+  clear(){
+    this.buckets = new Array(this.capacity)
+  }
+
+// return arrray containing all the keys in hashmap
+keys(){
+  let key_lists = []
+  for(let i = 0; i < this.buckets.length; i++){
+    if(this.buckets[i] !== undefined){
+      let current = this.buckets[i].head
+      while(current != null){
+        key_lists.push(Object.keys(current.data)[0])
+        current = current.next
+      }
+    }
+  }
+  return key_lists
+}
+
+
+// return array containing all values in hashmap
+values(){
+  let value_lists = []
+  for(let i = 0; i < this.buckets.length; i++){
+    if(this.buckets[i] !== undefined){
+      let current = this.buckets[i].head
+      while(current != null){
+        value_lists.push(Object.values(current.data)[0])
+        current = current.next
+      }
+    }
+  }
+  return value_lists
+
+}
+
+
+entries(){
+  let lists = []
+  let key_lists = this.keys()
+  let value_lists = this.values()
+
+  for(let i = 0; i < key_lists.length; i++){
+    lists.push([key_lists[i],value_lists[i]])
+  }
+
+  return lists
+}
+
+
   show() {
     for (let i = 0; i < this.buckets.length; i++) {
       console.log(this.buckets[i]);
@@ -122,10 +174,13 @@ const map = new HashMap();
 
 // map.set("name","Linn")
 // map.set("eman","David")
-map.set("hello", "world");
-map.set("sara", "ali");
-map.set("aras", "love");
-map.set("thet", "lin");
-map.set("teht", "love");
+map.set("hello", 1);
+map.set("sara", 2);
+map.set("aras", 3);
+map.set("thet", 4);
+map.set("teht", 5);
 // map.show()
 console.log(map.length());
+// console.log(map.keys())
+// console.log(map.values())
+console.log(map.entries())
