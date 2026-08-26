@@ -83,16 +83,33 @@ class HashMap {
   remove(key) {
     let hashCode = this.hash(key);
 
-    let node = this.buckets[hashCode].head;
-
-    while (node != null) {
-      if (Object.keys(node.data)[0] == key) {
-        node = node.data;
-      }
-      node = node.next;
+    // Bucket does not exits
+    if (this.buckets[hashCode] === undefined) {
+      return false;
     }
 
-    return null;
+    let list = this.buckets[hashCode];
+    let current = list.head;
+    let previous = null;
+
+    while (current != null) {
+      let currentKey = Object.keys(current.data)[0];
+
+      if (currentKey === key) {
+        // removing first node
+        if (previous === null) {
+          list.head = current.next;
+        } else {
+          previous.next = current.next;
+        }
+        return true;
+      }
+
+      previous = current;
+      current = previous.next;
+    }
+
+    return false;
   }
 
   // returns the number of stored keys in hashmap
@@ -111,57 +128,52 @@ class HashMap {
     return total_key;
   }
 
-
-// removes all entries in hashmap
-  clear(){
-    this.buckets = new Array(this.capacity)
+  // removes all entries in hashmap
+  clear() {
+    this.buckets = new Array(this.capacity);
   }
 
-// return arrray containing all the keys in hashmap
-keys(){
-  let key_lists = []
-  for(let i = 0; i < this.buckets.length; i++){
-    if(this.buckets[i] !== undefined){
-      let current = this.buckets[i].head
-      while(current != null){
-        key_lists.push(Object.keys(current.data)[0])
-        current = current.next
+  // return arrray containing all the keys in hashmap
+  keys() {
+    let key_lists = [];
+    for (let i = 0; i < this.buckets.length; i++) {
+      if (this.buckets[i] !== undefined) {
+        let current = this.buckets[i].head;
+        while (current != null) {
+          key_lists.push(Object.keys(current.data)[0]);
+          current = current.next;
+        }
       }
     }
+    return key_lists;
   }
-  return key_lists
-}
 
-
-// return array containing all values in hashmap
-values(){
-  let value_lists = []
-  for(let i = 0; i < this.buckets.length; i++){
-    if(this.buckets[i] !== undefined){
-      let current = this.buckets[i].head
-      while(current != null){
-        value_lists.push(Object.values(current.data)[0])
-        current = current.next
+  // return array containing all values in hashmap
+  values() {
+    let value_lists = [];
+    for (let i = 0; i < this.buckets.length; i++) {
+      if (this.buckets[i] !== undefined) {
+        let current = this.buckets[i].head;
+        while (current != null) {
+          value_lists.push(Object.values(current.data)[0]);
+          current = current.next;
+        }
       }
     }
-  }
-  return value_lists
-
-}
-
-
-entries(){
-  let lists = []
-  let key_lists = this.keys()
-  let value_lists = this.values()
-
-  for(let i = 0; i < key_lists.length; i++){
-    lists.push([key_lists[i],value_lists[i]])
+    return value_lists;
   }
 
-  return lists
-}
+  entries() {
+    let lists = [];
+    let key_lists = this.keys();
+    let value_lists = this.values();
 
+    for (let i = 0; i < key_lists.length; i++) {
+      lists.push([key_lists[i], value_lists[i]]);
+    }
+
+    return lists;
+  }
 
   show() {
     for (let i = 0; i < this.buckets.length; i++) {
@@ -181,6 +193,9 @@ map.set("thet", 4);
 map.set("teht", 5);
 // map.show()
 console.log(map.length());
+map.show();
+map.remove("thet");
+console.log("========After remove========");
+map.show();
 // console.log(map.keys())
 // console.log(map.values())
-console.log(map.entries())
