@@ -5,8 +5,13 @@ class HashMap {
   capacity = 16;
   buckets = new Array(this.capacity);
 
-  constructor() {}
 
+  constructor() {
+    this.maximum_accept_nodes = this.load_factor * this.capacity
+  }
+
+  
+  
   hash(key) {
     let hashCode = 0;
 
@@ -22,6 +27,11 @@ class HashMap {
 
   set(key, value) {
     let hashCode = this.hash(key);
+
+    if(this.length() > this.maximum_accept_nodes - 1){
+      this.grow()
+    }
+
 
     if (this.buckets[hashCode] === undefined) {
       let newLists = new LinkListed();
@@ -175,27 +185,44 @@ class HashMap {
     return lists;
   }
 
+
+
+  grow(){
+    console.log("this is growing")  
+    let entries_value = this.entries()
+    this.buckets = new Array(this.capacity * 2)
+    for(let i = 0; i < entries_value.length; i++){
+      this.set(entries_value[i][0],entries_value[i][1])
+    }
+  }
+
   show() {
     for (let i = 0; i < this.buckets.length; i++) {
-      console.log(this.buckets[i]);
+      console.log(`${i} ${this.buckets[i]}`);
     }
+    console.log(this.length())
+    console.log(this.capacity * this.load_factor)
   }
 }
 
-const map = new HashMap();
 
-// map.set("name","Linn")
-// map.set("eman","David")
-map.set("hello", 1);
-map.set("sara", 2);
-map.set("aras", 3);
-map.set("thet", 4);
-map.set("teht", 5);
-// map.show()
-console.log(map.length());
-map.show();
-map.remove("thet");
-console.log("========After remove========");
-map.show();
-// console.log(map.keys())
-// console.log(map.values())
+const test = new HashMap() // or HashMap() if using a factory
+
+test.set('apple', 'red')
+test.set('banana', 'yellow')
+test.set('carrot', 'orange')
+test.set('dog', 'brown')
+test.set('elephant', 'gray')
+test.set('frog', 'green')
+test.set('grape', 'purple')
+test.set('hat', 'black')
+test.set('ice cream', 'white')
+test.set('jacket', 'blue')
+test.set('kite', 'pink')
+test.set('blueberry', 'pink')
+test.set('moon', 'silver')
+test.set('dark','gold')
+
+console.log(test.entries())
+
+test.show()
